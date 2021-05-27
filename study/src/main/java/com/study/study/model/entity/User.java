@@ -1,6 +1,8 @@
 package com.study.study.model.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -19,6 +21,7 @@ import java.util.List;
 @Builder
 @ToString(exclude = {"orderGroupList"})
 @EntityListeners(AuditingEntityListener.class)
+@Where(clause = "deleted = false")
 public class User {
 
     @Id
@@ -53,5 +56,8 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<OrderGroup> orderGroupList;
+
+    @ColumnDefault("0")
+    private boolean deleted;
 
 }
