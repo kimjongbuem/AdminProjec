@@ -2,6 +2,7 @@ package com.study.study.model.service;
 
 import com.study.study.ifs.Crud;
 import com.study.study.model.entity.User;
+import com.study.study.model.enumclass.UserStatus;
 import com.study.study.model.header.Header;
 import com.study.study.model.request.UserApiRequest;
 import com.study.study.model.response.UserApiResponse;
@@ -25,7 +26,7 @@ public class UserLogicService implements Crud<UserApiResponse, UserApiRequest> {
                                      .email(data.getEmail())
                                      .phoneNumber(data.getPhoneNumber())
                                      .password(data.getPassword())
-                                     .status("REGISTERED")
+                                     .status(UserStatus.REGISTERED)
                                      .registeredAt(LocalDateTime.now())
                                      .build();
 

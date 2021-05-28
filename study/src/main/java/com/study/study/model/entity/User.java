@@ -1,5 +1,6 @@
 package com.study.study.model.entity;
 
+import com.study.study.model.enumclass.UserStatus;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
@@ -32,7 +33,8 @@ public class User {
 
     private String password;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     private String email;
 
