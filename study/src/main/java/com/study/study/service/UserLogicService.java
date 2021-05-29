@@ -1,5 +1,6 @@
-package com.study.study.model.service;
+package com.study.study.service;
 
+import com.study.study.controller.api.BaseService;
 import com.study.study.ifs.Crud;
 import com.study.study.model.entity.User;
 import com.study.study.model.enumclass.UserStatus;
@@ -13,10 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class UserLogicService implements Crud<UserApiResponse, UserApiRequest> {
-
-    @Autowired
-    private UserRepository userRepository;
+public class UserLogicService extends BaseService<UserApiResponse, UserApiRequest, User> {
 
     @Override
     public Header<UserApiResponse> create(Header<UserApiRequest> request) {
@@ -30,7 +28,7 @@ public class UserLogicService implements Crud<UserApiResponse, UserApiRequest> {
                                      .registeredAt(LocalDateTime.now())
                                      .build();
 
-        User newUser = userRepository.save(user);
+        User newUser = baseRepository.save(user);
 
         return response(newUser) ;
     }
@@ -39,7 +37,7 @@ public class UserLogicService implements Crud<UserApiResponse, UserApiRequest> {
     public Header<UserApiResponse> update(Header<UserApiRequest> request) {
         UserApiRequest data = request.getData();
 
-        return userRepository.findById(data.getId()).map(
+        return baseRepository.findById(data.getId()).map(
                 user ->
                 {
                         user.setAccount(data.getAccount());
@@ -52,7 +50,7 @@ public class UserLogicService implements Crud<UserApiResponse, UserApiRequest> {
                         return user;
                 }
         ).map(
-                user-> userRepository.save(user)
+                user-> baseRepository.save(user)
         ).map(
                 this::response
         ).orElseGet(()->Header.ERROR("데이터없음"));
@@ -61,7 +59,7 @@ public class UserLogicService implements Crud<UserApiResponse, UserApiRequest> {
 
     @Override
     public Header<UserApiResponse> read(Long id) {
-        return userRepository.findById(id).map(
+        return baseRepository.findById(id).map(
                 this::response)
                 .orElseGet(()-> Header.ERROR("데이터없음"));
     }
@@ -69,14 +67,14 @@ public class UserLogicService implements Crud<UserApiResponse, UserApiRequest> {
     @Override
     public Header delete(Long id) {
 
-        return userRepository.findById(id).map(
+        return baseRepository.findById(id).map(
                 user ->
                 {
                     user.setDeleted(true);
                     return user;
                 }
         ).map(
-                user-> userRepository.save(user)
+                user-> baseRepository.save(user)
         ).map(
                 this::response
         ).orElseGet(()->Header.ERROR("데이터없음"));

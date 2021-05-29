@@ -1,5 +1,6 @@
 package com.study.study.model.entity;
 
+import com.study.study.model.enumclass.OrderGroupStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -26,7 +27,8 @@ public class OrderGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderGroupStatus status;
 
     private String orderType;
 

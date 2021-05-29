@@ -1,5 +1,6 @@
-package com.study.study.model.service;
+package com.study.study.service;
 
+import com.study.study.controller.api.BaseService;
 import com.study.study.ifs.Crud;
 import com.study.study.model.entity.Item;
 import com.study.study.model.header.Header;
@@ -13,10 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class ItemLogicService implements Crud<ItemApiResponse, ItemApiRequest> {
-
-    @Autowired
-    private ItemRepository itemRepository;
+public class ItemLogicService extends BaseService<ItemApiResponse, ItemApiRequest, Item> {
 
     @Autowired
     private PartnerRepository partnerRepository;
@@ -37,7 +35,7 @@ public class ItemLogicService implements Crud<ItemApiResponse, ItemApiRequest> {
                 .registeredAt(LocalDateTime.now())
                 .partner(partnerRepository.getOne(data.getPartnerId())).build();
 
-        Item newItem = itemRepository.save(item);
+        Item newItem = baseRepository.save(item);
 
         return response(newItem);
     }
@@ -46,7 +44,7 @@ public class ItemLogicService implements Crud<ItemApiResponse, ItemApiRequest> {
     public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
 
         ItemApiRequest data = request.getData();
-        return itemRepository.findById(data.getId()).map(
+        return baseRepository.findById(data.getId()).map(
                 item ->{
                     item.setBrandName(data.getBrandName());
                     item.setContent(data.getContent());
@@ -59,7 +57,7 @@ public class ItemLogicService implements Crud<ItemApiResponse, ItemApiRequest> {
 
                     return item;
                 }).map(
-                         user-> itemRepository.save(user)
+                         user-> baseRepository.save(user)
                  ).map(
                          this::response
                  ).orElseGet(()-> Header.ERROR("데이터없음"));
@@ -67,16 +65,16 @@ public class ItemLogicService implements Crud<ItemApiResponse, ItemApiRequest> {
 
     @Override
     public Header<ItemApiResponse> read(Long id) {
-        return itemRepository.findById(id).map(
+        return baseRepository.findById(id).map(
                 this::response)
                 .orElseGet(()-> Header.ERROR("데이터없음"));
     }
 
     @Override
     public Header delete(Long id) {
-        return itemRepository.findById(id).map(
+        return baseRepository.findById(id).map(
                 item -> {
-                    itemRepository.delete(item);
+                    baseRepository.delete(item);
                     return Header.OK();
                 })
                 .orElseGet(()-> Header.ERROR("데이터없음"));

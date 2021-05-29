@@ -1,5 +1,6 @@
 package com.study.study.model.request;
 
+import com.study.study.model.enumclass.OrderGroupStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class OrderGroupApiRequest {
     private Long id;
 
-    private String status;
+    private OrderGroupStatus status;
 
     private String orderType;
 

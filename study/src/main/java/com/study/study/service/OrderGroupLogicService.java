@@ -1,25 +1,16 @@
-package com.study.study.model.service;
+package com.study.study.service;
 
-import com.study.study.ifs.Crud;
+import com.study.study.controller.api.BaseService;
 import com.study.study.model.entity.OrderGroup;
 import com.study.study.model.header.Header;
 import com.study.study.model.request.OrderGroupApiRequest;
-import com.study.study.model.response.ItemApiResponse;
 import com.study.study.model.response.OrderGroupApiResponse;
-import com.study.study.repository.OrderGroupRepository;
 import com.study.study.repository.UserRepository;
-import org.aspectj.weaver.ast.Or;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.Query;
-
 @Service
-public class OrderGroupLogicService implements Crud<OrderGroupApiResponse, OrderGroupApiRequest> {
-
-    @Autowired
-    private OrderGroupRepository orderGroupRepository;
+public class OrderGroupLogicService extends BaseService<OrderGroupApiResponse, OrderGroupApiRequest, OrderGroup> {
 
     @Autowired
     private UserRepository userRepository;
@@ -42,7 +33,7 @@ public class OrderGroupLogicService implements Crud<OrderGroupApiResponse, Order
                 .user(userRepository.getOne(data.getUserId()))
                 .build();
 
-        OrderGroup newOrderGroup = orderGroupRepository.save(orderGroup);
+        OrderGroup newOrderGroup = baseRepository.save(orderGroup);
 
         return response(newOrderGroup);
     }
@@ -52,7 +43,7 @@ public class OrderGroupLogicService implements Crud<OrderGroupApiResponse, Order
 
         OrderGroupApiRequest data = request.getData();
 
-        return orderGroupRepository.findById(data.getId()).
+        return baseRepository.findById(data.getId()).
                 map(orderGroup -> {
                     orderGroup.setStatus(data.getStatus());
                     orderGroup.setOrderType(data.getOrderType());
@@ -64,7 +55,7 @@ public class OrderGroupLogicService implements Crud<OrderGroupApiResponse, Order
                     orderGroup.setOrderAt(data.getOrderAt());
                     return orderGroup;
                 }).map(
-                orderGroup-> orderGroupRepository.save(orderGroup)
+                orderGroup-> baseRepository.save(orderGroup)
                 ).map(
                     this::response
                 ).
@@ -73,16 +64,16 @@ public class OrderGroupLogicService implements Crud<OrderGroupApiResponse, Order
 
     @Override
     public Header<OrderGroupApiResponse> read(Long id) {
-        return orderGroupRepository.findById(id).
+        return baseRepository.findById(id).
                 map(this::response).
                 orElseGet(() -> Header.ERROR("데이터없음"));
     }
 
     @Override
     public Header delete(Long id) {
-        return orderGroupRepository.findById(id).
+        return baseRepository.findById(id).
                 map(orderGroup -> {
-                    orderGroupRepository.delete(orderGroup);
+                    baseRepository.delete(orderGroup);
                     return Header.OK();
                 }).
                 orElseGet(() -> Header.ERROR("데이터없음"));
