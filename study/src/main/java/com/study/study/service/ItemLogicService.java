@@ -82,7 +82,7 @@ public class ItemLogicService extends BaseService<ItemApiResponse, ItemApiReques
                 .orElseGet(()-> Header.ERROR("데이터없음"));
     }
 
-    private Header<ItemApiResponse> response(Item item){
+    public Header<ItemApiResponse> response(Item item){
         ItemApiResponse data = ItemApiResponse.builder()
                 .brandName(item.getBrandName())
                 .content(item.getContent())
