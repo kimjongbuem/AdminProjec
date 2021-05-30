@@ -7,7 +7,10 @@ import com.study.study.model.request.OrderGroupApiRequest;
 import com.study.study.model.response.OrderGroupApiResponse;
 import com.study.study.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OrderGroupLogicService extends BaseService<OrderGroupApiResponse, OrderGroupApiRequest, OrderGroup> {
@@ -96,5 +99,10 @@ public class OrderGroupLogicService extends BaseService<OrderGroupApiResponse, O
                 .build();
 
         return Header.OK(orderGroupApiResponse);
+    }
+
+    @Override
+    public Header<List<OrderGroupApiResponse>> getPageList(Pageable pageable) {
+        return null;
     }
 }

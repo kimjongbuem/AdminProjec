@@ -9,7 +9,10 @@ import com.study.study.model.response.ItemApiResponse;
 import com.study.study.model.response.PartnerApiResponse;
 import com.study.study.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PartnerLogicService extends BaseService<PartnerApiResponse, PartnerApiRequest, Partner> {
@@ -91,5 +94,10 @@ public class PartnerLogicService extends BaseService<PartnerApiResponse, Partner
                 .categoryId(partner.getCategory().getId())
                 .build();
         return Header.OK(data);
+    }
+
+    @Override
+    public Header<List<PartnerApiResponse>> getPageList(Pageable pageable) {
+        return null;
     }
 }

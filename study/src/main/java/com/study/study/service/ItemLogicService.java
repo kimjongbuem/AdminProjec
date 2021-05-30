@@ -9,9 +9,11 @@ import com.study.study.model.response.ItemApiResponse;
 import com.study.study.repository.ItemRepository;
 import com.study.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ItemLogicService extends BaseService<ItemApiResponse, ItemApiRequest, Item> {
@@ -94,5 +96,10 @@ public class ItemLogicService extends BaseService<ItemApiResponse, ItemApiReques
                 .partnerId(item.getPartner().getId())
                 .build();
         return Header.OK(data);
+    }
+
+    @Override
+    public Header<List<ItemApiResponse>> getPageList(Pageable pageable) {
+        return null;
     }
 }

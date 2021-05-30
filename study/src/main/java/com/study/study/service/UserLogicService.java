@@ -5,13 +5,18 @@ import com.study.study.ifs.Crud;
 import com.study.study.model.entity.User;
 import com.study.study.model.enumclass.UserStatus;
 import com.study.study.model.header.Header;
+import com.study.study.model.header.PagingNation;
 import com.study.study.model.request.UserApiRequest;
 import com.study.study.model.response.UserApiResponse;
 import com.study.study.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserLogicService extends BaseService<UserApiResponse, UserApiRequest, User> {
@@ -30,7 +35,7 @@ public class UserLogicService extends BaseService<UserApiResponse, UserApiReques
 
         User newUser = baseRepository.save(user);
 
-        return response(newUser) ;
+        return Header.OK(response(newUser));
     }
 
     @Override
@@ -52,7 +57,7 @@ public class UserLogicService extends BaseService<UserApiResponse, UserApiReques
         ).map(
                 user-> baseRepository.save(user)
         ).map(
-                this::response
+              user -> Header.OK(response(user))
         ).orElseGet(()->Header.ERROR("데이터없음"));
 
     }
@@ -60,7 +65,7 @@ public class UserLogicService extends BaseService<UserApiResponse, UserApiReques
     @Override
     public Header<UserApiResponse> read(Long id) {
         return baseRepository.findById(id).map(
-                this::response)
+                user -> Header.OK(response(user)))
                 .orElseGet(()-> Header.ERROR("데이터없음"));
     }
 
@@ -76,13 +81,13 @@ public class UserLogicService extends BaseService<UserApiResponse, UserApiReques
         ).map(
                 user-> baseRepository.save(user)
         ).map(
-                this::response
+                user -> Header.OK(response(user))
         ).orElseGet(()->Header.ERROR("데이터없음"));
     }
 
-    private Header<UserApiResponse> response(User user){
+    private UserApiResponse response(User user){
 
-        UserApiResponse userApiResponse = UserApiResponse.builder()
+        return UserApiResponse.builder()
                 .id(user.getId())
                 .account(user.getAccount())
                 .password(user.getPassword())
@@ -92,8 +97,23 @@ public class UserLogicService extends BaseService<UserApiResponse, UserApiReques
                 .registeredAt(user.getRegisteredAt())
                 .unregisteredAt(user.getUnregisteredAt())
                 .build();
-
-        return Header.OK(userApiResponse);
     }
 
+    @Override
+    public Header<List<UserApiResponse>> getPageList(Pageable pageable) {
+        Page<User> all = baseRepository.findAll(pageable);
+        List<UserApiResponse> apiResponseList = all.stream()
+                .map(
+                        this::response
+                ).collect(Collectors.toList());
+
+        PagingNation pagingNation = PagingNation.builder()
+                .totalPages(all.getTotalPages())
+                .totalElements(all.getTotalElements())
+                .currentPage(all.getNumber())
+                .currentElements(all.getNumberOfElements())
+                .build();
+
+        return Header.OK(apiResponseList, pagingNation);
+    }
 }

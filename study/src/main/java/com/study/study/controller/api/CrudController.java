@@ -6,14 +6,24 @@ import com.study.study.model.request.UserApiRequest;
 import com.study.study.model.response.UserApiResponse;
 import com.study.study.service.UserLogicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Component
 public abstract class CrudController<Res, Req, Entity> implements Crud<Res, Req> {
 
     @Autowired
     protected BaseService<Res, Req, Entity> baseService;
+
+    @GetMapping("")
+    public Header<List<Res>> getPageList(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, size = 10) Pageable pageable){
+        return baseService.getPageList(pageable);
+    }
 
     @PostMapping("")
     public Header<Res> create(@RequestBody Header<Req> request) {

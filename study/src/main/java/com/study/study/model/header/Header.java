@@ -25,6 +25,8 @@ public class Header<T> {
 
     private T data;
 
+    private PagingNation pagingNation;
+
     public static <T> Header<T> OK(){
         return (Header<T>)Header.builder().
                 transactionTime(LocalDateTime.now()).
@@ -42,6 +44,15 @@ public class Header<T> {
                 build();
     }
 
+    public static <T> Header<T> OK(T data, PagingNation pagingNation){
+        return (Header<T>)Header.builder().
+                transactionTime(LocalDateTime.now()).
+                resultCode("OK").
+                data(data).
+                description("OK").
+                pagingNation(pagingNation).
+                build();
+    }
 
     public static <T> Header<T> ERROR(String description){
         return (Header<T>)Header.builder().
