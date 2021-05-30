@@ -1,5 +1,6 @@
 package com.study.study.model.entity;
 
+import com.study.study.model.enumclass.ItemStatus;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,7 +25,8 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ItemStatus status;
 
     private String name;
 
