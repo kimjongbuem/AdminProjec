@@ -1,12 +1,9 @@
 package com.study.study.service;
 
-import com.study.study.controller.api.BaseService;
-import com.study.study.ifs.Crud;
 import com.study.study.model.entity.Item;
 import com.study.study.model.header.Header;
 import com.study.study.model.request.ItemApiRequest;
 import com.study.study.model.response.ItemApiResponse;
-import com.study.study.repository.ItemRepository;
 import com.study.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

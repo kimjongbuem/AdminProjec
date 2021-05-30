@@ -1,11 +1,8 @@
 package com.study.study.service;
 
-import com.study.study.controller.api.BaseService;
-import com.study.study.model.entity.Item;
 import com.study.study.model.entity.Partner;
 import com.study.study.model.header.Header;
 import com.study.study.model.request.PartnerApiRequest;
-import com.study.study.model.response.ItemApiResponse;
 import com.study.study.model.response.PartnerApiResponse;
 import com.study.study.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;

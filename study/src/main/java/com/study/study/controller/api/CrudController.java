@@ -2,9 +2,7 @@ package com.study.study.controller.api;
 
 import com.study.study.ifs.Crud;
 import com.study.study.model.header.Header;
-import com.study.study.model.request.UserApiRequest;
-import com.study.study.model.response.UserApiResponse;
-import com.study.study.service.UserLogicService;
+import com.study.study.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

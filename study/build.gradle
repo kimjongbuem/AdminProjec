@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation "org.mockito:mockito-core:3.+"
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 test {

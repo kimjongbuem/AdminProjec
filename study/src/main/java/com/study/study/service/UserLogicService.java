@@ -1,7 +1,5 @@
 package com.study.study.service;
 
-import com.study.study.controller.api.BaseService;
-import com.study.study.ifs.Crud;
 import com.study.study.model.entity.OrderDetail;
 import com.study.study.model.entity.OrderGroup;
 import com.study.study.model.entity.User;
@@ -13,7 +11,6 @@ import com.study.study.model.response.ItemApiResponse;
 import com.study.study.model.response.OrderGroupApiResponse;
 import com.study.study.model.response.UserApiResponse;
 import com.study.study.model.response.UserOrderInfoApiResponse;
-import com.study.study.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
